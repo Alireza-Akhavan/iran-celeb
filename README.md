@@ -1,2 +1,7 @@
-# iran-celeb
-mini-tools for Iranian celebrity dataset (iran-celeb.ir)
+<div dir="rtl">
+
+# مجموعه ابزارها برای ایجاد مجموعه داده iran-celeb
+
+# گام اول
+
+</div>
