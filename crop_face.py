@@ -88,7 +88,9 @@ def main(args):
                     if not os.path.exists(new_dir + '/' + actor_id):
                         os.mkdir(new_dir + '/' + actor_id)
                     save_dir = new_dir + '/' + actor_id + '/' + rename_with_id(filename, i)
-                    croped.save(save_dir, 'JPEG')
+                    croped.convert('RGB').save(save_dir, 'JPEG')
+
+
             else:
                 filename = os.path.basename(os.path.normpath(file))
                 save_dir = new_dir + '/' + actor_id + '/' + rename_with_id(filename)
