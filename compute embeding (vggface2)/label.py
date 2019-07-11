@@ -5,11 +5,11 @@ from embeding_vgg import *
 
 MIN_THRESHOLD = 0.7
 MAX_THRESHOLD = 1.9
-model_dir ='vgg_model/20180402-114759/'
+model_dir ='compute embeding (vggface2)/vgg_model/20180402-114759/'
 image_batch = 500
 image_size = 160
-pickle_filename = 'embeddings.pickle'
-criterion_image_path = 'images/'
+image_files = 'compute embeding (vggface2)/296'
+criterion_image_path = 'compute embeding (vggface2)/images/'
 
 
 def embeding(image_path):
@@ -69,13 +69,33 @@ def embeding(image_path):
             return data
 
 def save_label():
-    import pudb; pudb.set_trace()  # XXX BREAKPOINT
     criterion_image_embedings = embeding(criterion_image_path)
-    import pudb; pudb.set_trace()  # XXX BREAKPOINT
+    foo = embeding(image_files)
+    diff_embeding = np.zeros([
+        len(foo['names']),
+        len(foo['embeddings'][0])
+    ])
 
-    foo = pickle.load(open(pickle_filename,'rb'))
-    for i in foo['embeddings']:
-        print(i)
+    labels = []
+    names = []
+    for i, img_embeding in enumerate(criterion_image_embedings['embeddings']):
+        for j, embeding_ in enumerate(foo['embeddings']):
+            diff_embeding[j] = np.subtract(img_embeding, embeding_)
+
+        mean = np.mean(diff_embeding)
+        if mean < MIN_THRESHOLD:
+            label = 1
+
+        elif MAX_THRESHOLD < mean < MIN_THRESHOLD:
+            label = 2
+
+        else:
+            label = 3
+
+        labels.append(label)
+        names.append(criterion_image_embedings['names'][i])
+
+    data = {"names": names, 'labels':labels}
 
 if __name__ == '__main__':
     save_label()
