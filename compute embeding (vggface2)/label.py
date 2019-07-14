@@ -10,6 +10,7 @@ image_batch = 500
 image_size = 160
 image_files = 'compute embeding (vggface2)/296'
 criterion_image_path = 'compute embeding (vggface2)/images/'
+path_for_save = 'compute embeding (vggface2)/label.pickle'
 
 
 def embeding(image_path):
@@ -96,6 +97,10 @@ def save_label():
         names.append(criterion_image_embedings['names'][i])
 
     data = {"names": names, 'labels':labels}
+    f = open(path_for_save, "wb")
+    f.write(pickle.dumps(data))
+    f.close()
+
 
 if __name__ == '__main__':
     save_label()
